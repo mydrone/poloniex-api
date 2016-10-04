@@ -105,7 +105,7 @@ class poloniex:
  
     # Places a sell order in a given market. Required POST parameters are "currencyPair", "rate", and "amount". If successful, the method will return the order number.
     # Inputs:
-    # currencyPair  The curreny pair
+    # currencyPair  The currency pair
     # rate          price the order is selling at
     # amount        Amount of coins to sell
     # Outputs:
