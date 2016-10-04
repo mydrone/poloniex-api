@@ -22,37 +22,42 @@ while (exit is not True):
     print("[5] Voir les toutes les transactions")
     print("[X] pour quitter le programme")
     var = input("Choix de commande: ")
-    if (var is "X" or var is "x"):
-        exit = True
-    elif (var is "1"):
-        bal = polo.returnBalances()
-        for w in bal:
-            if (float(bal[w]) > 0):
-                print(w, " balance: ", bal[w])
-        input()
-        cls()
-    elif (var is "2"):
-        oo = polo.returnOpenOrders("USDT_BTC")
-        for d in oo:
-            print()
-            for i in d:
-                print(i, ": ", d[i])
-        input()
-        cls()
-    elif (var is "3"):
-        print(polo.returnTradeHistory("all"))
-        input()
-        cls()
-    elif (var is "4"):
-        dw = polo.returnDepositsWithdrawals(0, time.time())
-        for i in dw:
-            print(i)
-            for e in dw[i]:
-                for y in e:
-                    print("\t", y, ": ", e[y])
-        input()
-        cls()
-    else:
-        print(var)
+    try: 
+        if (var is "X" or var is "x"):
+            exit = True
+        elif (var is "1"):
+            bal = polo.returnBalances()
+            for w in bal:
+                if (float(bal[w]) > 0):
+                    print(w, " balance: ", bal[w])
+            input()
+            cls()
+        elif (var is "2"):
+            oo = polo.returnOpenOrders("USDT_BTC")
+            for d in oo:
+                print()
+                for i in d:
+                    print(i, ": ", d[i])
+            input()
+            cls()
+        elif (var is "3"):
+            print(polo.returnTradeHistory("all"))
+            input()
+            cls()
+        elif (var is "4"):
+            dw = polo.returnDepositsWithdrawals(0, time.time())
+            for i in dw:
+                print(i)
+                for e in dw[i]:
+                    for y in e:
+                        print("\t", y, ": ", e[y])
+            input()
+            cls()
+        else:
+            print(var)
+            input()
+            cls()
+    except (ValueError, NameError) as e:
+        print("ERROR: ", e)
         input()
         cls()
