@@ -8,8 +8,8 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
 
 class poloniex:
     def __init__(self):
-        self.APIKey = '#ApiKey'
-        self.Secret = '#ApiSecret'
+        self.APIKey = '8I1AX95I-OKYRFX5A-IUJ9SBPK-X3T5T56S'
+        self.Secret = '8886466683fdfad378b22f81400dbe4a91cfdc5ca7a763c067e5332fb117d99bc1ac8c0201e1faa3b927230093b562bc7ea3ba289e3d94df0d6f2735dc4c7880'
 
     def post_process(self, before):
         after = before
