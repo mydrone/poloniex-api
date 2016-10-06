@@ -8,8 +8,8 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
 
 class poloniex:
     def __init__(self):
-        self.APIKey = '8I1AX95I-OKYRFX5A-IUJ9SBPK-X3T5T56S'
-        self.Secret = '8886466683fdfad378b22f81400dbe4a91cfdc5ca7a763c067e5332fb117d99bc1ac8c0201e1faa3b927230093b562bc7ea3ba289e3d94df0d6f2735dc4c7880'
+        self.APIKey = 'BxL1tELSWpG8p5XIaD1d'
+        self.Secret = 'XPEfFcKBSASZx4CjMAci1elxjaPGjLS6X7yVOxMu'
 
     def post_process(self, before):
         after = before
@@ -26,13 +26,13 @@ class poloniex:
 
     def api_query(self, command, req={}):
         if(command == "returnTicker" or command == "return24Volume"):
-            ret = urllib.request.urlopen(urllib.request.Request('https://poloniex.com/public?command=' + command))
+            ret = urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/public?command=' + command))
             return json.loads(ret.read().decode('utf-8'))
         elif(command == "returnOrderBook"):
-            ret = urllib.request.urlopen(urllib.request.Request('https://poloniex.com/public?command=' + command + '&currencyPair=' + str(req['currencyPair'])))
+            ret = urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/public?command=' + command + '&currencyPair=' + str(req['currencyPair'])))
             return json.loads(ret.read().decode('utf-8'))
         elif(command == "returnMarketTradeHistory"):
-            ret = urllib.request.urlopen(urllib.request.Request('https://poloniex.com/public?command=' + "returnTradeHistory" + '&currencyPair=' + str(req['currencyPair'])))
+            ret = urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/public?command=' + "returnTradeHistory" + '&currencyPair=' + str(req['currencyPair'])))
             return json.loads(ret.read().decode('utf-8'))
         else:
             req['command'] = command
@@ -40,12 +40,17 @@ class poloniex:
             post_data = urllib.parse.urlencode(req)
 
             sign = hmac.new(bytearray(self.Secret, 'ascii'), bytearray(post_data, 'ascii'), hashlib.sha512).hexdigest()
+            print(command)
+            print(req['nonce'])
+            print(self.APIKey)
+            print(self.Secret)
+            print(sign)
             headers = {
                 'Sign': sign,
                 'Key': self.APIKey
             }
 
-            ret = urllib.request.urlopen(urllib.request.Request('https://poloniex.com/tradingApi', bytearray(post_data, 'ascii'), headers))
+            ret = urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:8000/trading', bytearray(post_data, 'ascii'), headers))
             return json.loads(ret.read().decode('utf-8'))
 
 
