@@ -1,7 +1,7 @@
 import urllib, urllib.request
 import json
 import time
-import hmac,hashlib
+import hashlib
 
 def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
     return time.mktime(time.strptime(datestr, format))
@@ -39,12 +39,10 @@ class poloniex:
             req['nonce'] = int(time.time()*1000)
             post_data = urllib.parse.urlencode(req)
 
-            sign = hmac.new(bytearray(self.Secret, 'ascii'), bytearray(post_data, 'ascii'), hashlib.sha512).hexdigest()
-            print(command)
-            print(req['nonce'])
-            print(self.APIKey)
-            print(self.Secret)
-            print(sign)
+            hash = hashlib.sha512(bytearray(self.Secret, 'ascii'))
+            hash.update(bytearray(str(req['nonce']), 'ascii'))
+            sign = hash.hexdigest()
+
             headers = {
                 'Sign': sign,
                 'Key': self.APIKey

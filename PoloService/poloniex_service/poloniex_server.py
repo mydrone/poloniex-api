@@ -1,7 +1,7 @@
 import urllib, urllib.request
 import json
 import time
-import hmac,hashlib
+import hashlib
 from .models import ApiCredentials
 from .poloniex_api import poloniex
 
@@ -12,12 +12,11 @@ class server:
     def credentials_checker(self, request):
         keyReceived = request.META.get('HTTP_KEY')
         signReceived = request.META.get('HTTP_SIGN')
-        req = {}
-        req['command'] = request.POST['command']
-        req['nonce'] = int(request.POST['nonce'])
         try:
             apiCredentials = ApiCredentials.objects.filter(key=keyReceived)[0]
-            signInDb = hmac.new(bytearray(apiCredentials.secret, 'ascii'), bytearray(urllib.parse.urlencode(req), 'ascii'), hashlib.sha512).hexdigest()
+            hash = hashlib.sha512(bytearray(apiCredentials.secret, 'ascii'))
+            hash.update(bytearray(request.POST['nonce'], 'ascii'))
+            signInDb = hash.hexdigest()
             if signReceived == signInDb:
                 return True
             else:
@@ -102,4 +101,4 @@ class server:
     
     def return_deposits_withdrawals(self, start, end):
         #Business Logic        
-        return self.polo.returnDepositsWithdrawls(start, end)
+        return self.polo.returnDepositsWithdrawals(start, end)
